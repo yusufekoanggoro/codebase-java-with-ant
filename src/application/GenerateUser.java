@@ -8,7 +8,6 @@ import application.dao.UserDao;
 import application.dao.interfaces.IUserDao;
 import application.models.UserModel;
 import application.utils.StringUtils;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
