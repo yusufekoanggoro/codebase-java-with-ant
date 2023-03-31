@@ -13,19 +13,19 @@ import java.util.List;
  */
 public interface IUserDao {
     
-    public List<UserModel> findOneById(UserModel userModel);
+    public List<UserModel> findOneById(UserModel user);
     
-    public UserModel findOneByUsername(UserModel userModel);
+    public UserModel findOneByUsername(UserModel user);
     
     public List<UserModel> findAll();
     
-    public int create(UserModel userModel);
+    public int create(UserModel user);
     
-    public int upsert(UserModel userModel);
+    public int upsert(UserModel user);
     
-    public int update(UserModel userModel);
+    public int update(UserModel user);
     
-    public void delete(UserModel userModel);
+    public void delete(UserModel user);
 
     public void closeStatement();
     

@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,25 +33,25 @@ public class UserDao implements IUserDao {
     }
 
     @Override
-    public List<UserModel> findOneById(UserModel userModel) {
+    public List<UserModel> findOneById(UserModel user) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public UserModel findOneByUsername(UserModel userModel) {
+    public UserModel findOneByUsername(UserModel user) {
         try {
             query = "SELECT * FROM users WHERE username=?";
  
             pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, userModel.getUsername());
+            pstmt.setString(1, user.getUsername());
             
             resultSet = pstmt.executeQuery();
             if(resultSet.next()){
-                userModel.setId(resultSet.getInt("id"));
-                userModel.setName(resultSet.getString("name"));
-                userModel.setGender(resultSet.getString("gender"));
-                userModel.setPassword(resultSet.getString("password"));
-                return userModel;
+                user.setId(resultSet.getInt("id"));
+                user.setName(resultSet.getString("name"));
+                user.setGender(resultSet.getString("gender"));
+                user.setPassword(resultSet.getString("password"));
+                return user;
             }
             return null;
 	} catch (SQLException e) {
@@ -69,7 +68,7 @@ public class UserDao implements IUserDao {
     }
 
     @Override
-    public int create(UserModel userModel) {
+    public int create(UserModel user) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -109,12 +108,12 @@ public class UserDao implements IUserDao {
     }
 
     @Override
-    public int update(UserModel userModel) {
+    public int update(UserModel user) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void delete(UserModel userModel) {
+    public void delete(UserModel user) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
