@@ -115,8 +115,7 @@ public class UserDao implements IUserDao {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public void closeStatement() {
+    private void closeStatement() {
         try {
             if(pstmt != null){
                 pstmt.close();

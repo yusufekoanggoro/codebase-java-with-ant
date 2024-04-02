@@ -59,6 +59,7 @@ public class Mysql {
         try {
             if (connection != null) {
                 connection.close();
+                logger.info("Connection closed");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

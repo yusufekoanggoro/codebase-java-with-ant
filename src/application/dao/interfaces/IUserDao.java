@@ -26,7 +26,5 @@ public interface IUserDao {
     public int update(UserModel user);
     
     public void delete(UserModel user);
-
-    public void closeStatement();
     
 }

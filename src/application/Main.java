@@ -4,7 +4,7 @@
  */
 package application;
 
-import application.views.LoginView;
+import application.views.*;
 
 /**
  *
@@ -21,6 +21,7 @@ public class Main {
             Mysql.getInstance().getConnection();
             GenerateUser.start();
             new LoginView().start();
+            new ReportView().start();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

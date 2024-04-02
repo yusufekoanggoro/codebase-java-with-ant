@@ -13,6 +13,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import java.sql.Connection;
 
 /**
  *
@@ -21,7 +22,7 @@ import javax.swing.JOptionPane;
 public class LoginView extends javax.swing.JFrame {
 
     private final IUserDao userDao;
-    
+
     /**
      * Creates new form LoginFrame
      */
@@ -30,17 +31,10 @@ public class LoginView extends javax.swing.JFrame {
         this.userDao = new UserDao();
     }
     
-    @Override
-    public void dispose(){
-        // TODO add your handling code here:
-        Mysql.getInstance().closeConnection();
-        super.dispose();
-    }
-    
     public void start(){
         JFrame frame = new LoginView();
         frame.setTitle("Login Frame");
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.addWindowListener( new WindowAdapter() {
