@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author yusuf
  */
-public class Mysql {
+public class Database {
     
     private static Connection connection;
     private static final String DRIVER = System.getProperty("MYSQL_DRIVER");
@@ -23,11 +23,11 @@ public class Mysql {
     private static final String PASSWORD = System.getProperty("MYSQL_PASSWORD");
     private static final String MAX_POOL = System.getProperty("MYSQL_MAX_POOL");
     
-    private static Mysql instance;
+    private static Database instance;
     
-    private static final Logger logger = Logger.getLogger(Mysql.class.getName());
+    private static final Logger logger = Logger.getLogger(Database.class.getName());
             
-    private Mysql() {
+    private Database() {
         try {
             Properties properties = new Properties();
             properties.setProperty("user", USERNAME);
@@ -42,9 +42,9 @@ public class Mysql {
         }
     }
 
-    public static Mysql getInstance(){
+    public static Database getInstance(){
         if (instance == null) {
-            instance = new Mysql();
+            instance = new Database();
         }else{
             logger.info("Connection already established with db");
         }

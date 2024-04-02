@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class GenerateUser {
     
-    private static final Logger logger = Logger.getLogger(Mysql.class.getName());
+    private static final Logger logger = Logger.getLogger(Database.class.getName());
     
     public static void start(){
         List<UserModel> users = new ArrayList<>();

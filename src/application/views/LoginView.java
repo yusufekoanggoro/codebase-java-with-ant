@@ -4,7 +4,7 @@
  */
 package application.views;
 
-import application.Mysql;
+import application.Database;
 import application.Password;
 import application.dao.UserDao;
 import application.dao.interfaces.IUserDao;
@@ -13,7 +13,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import java.sql.Connection;
 
 /**
  *
@@ -37,7 +36,7 @@ public class LoginView extends javax.swing.JFrame {
 //        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        frame.addWindowListener( new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 JFrame frame = (JFrame)e.getSource();
@@ -49,7 +48,7 @@ public class LoginView extends javax.swing.JFrame {
                     JOptionPane.YES_NO_OPTION);
 
                 if (result == JOptionPane.YES_OPTION){
-                    Mysql.getInstance().closeConnection();
+                    Database.getInstance().closeConnection();
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     System.exit(0);
                 }

@@ -4,10 +4,9 @@
  */
 package application.views;
 
-import application.Mysql;
+import application.Database;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ public class ReportView extends javax.swing.JFrame {
 //        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        frame.addWindowListener( new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 JFrame frame = (JFrame)e.getSource();
@@ -56,7 +55,7 @@ public class ReportView extends javax.swing.JFrame {
                     JOptionPane.YES_NO_OPTION);
 
                 if (result == JOptionPane.YES_OPTION){
-                    Mysql.getInstance().closeConnection();
+                    Database.getInstance().closeConnection();
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     System.exit(0);
                 }
@@ -93,16 +92,16 @@ public class ReportView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(155, 155, 155)
+                .addGap(127, 127, 127)
                 .addComponent(jButton1)
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(148, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(140, Short.MAX_VALUE)
+                .addContainerGap(141, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(137, 137, 137))
+                .addGap(136, 136, 136))
         );
 
         pack();
@@ -115,7 +114,7 @@ public class ReportView extends javax.swing.JFrame {
             InputStream reportStream = ReportView.class.getResourceAsStream("/resources/reports/" + templateName);
             JasperDesign jd = JRXmlLoader.load(reportStream);
             
-            Connection dbConnection = Mysql.getInstance().getConnection();
+            Connection dbConnection = Database.getInstance().getConnection();
             JasperReport jr = JasperCompileManager.compileReport(jd);
             
             HashMap parameter = new HashMap();

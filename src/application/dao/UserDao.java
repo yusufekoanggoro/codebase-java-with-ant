@@ -5,7 +5,7 @@
 package application.dao;
 
 import application.dao.interfaces.IUserDao;
-import application.Mysql;
+import application.Database;
 import application.models.UserModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,7 +27,7 @@ public class UserDao implements IUserDao {
     private String query;
     
     public UserDao() {
-        dbConnection = Mysql.getInstance().getConnection();
+        dbConnection = Database.getInstance().getConnection();
     }
 
     @Override

@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             Config.load();
-            Mysql.getInstance().getConnection();
+            Database.getInstance().getConnection();
             GenerateUser.start();
             new LoginView().start();
             new ReportView().start();
