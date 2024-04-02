@@ -5,7 +5,7 @@
 package application.dao;
 
 import application.dao.interfaces.IUserDao;
-import application.databases.Mysql;
+import application.Mysql;
 import application.models.UserModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,13 +23,11 @@ public class UserDao implements IUserDao {
     private Connection connection = null;
     private PreparedStatement pstmt = null;
     private ResultSet resultSet = null;
-    private final Mysql mysql;
 
     private String query;
     
     public UserDao() {
-        this.mysql = new Mysql();
-        this.connection = mysql.getConnection();
+        connection = Mysql.getInstance().getConnection();
     }
 
     @Override
@@ -57,7 +55,7 @@ public class UserDao implements IUserDao {
 	} catch (SQLException e) {
             // e.printStackTrace();
             throw new RuntimeException(e);
-        }finally{
+        } finally {
             closeStatement();
         }
     }
@@ -102,7 +100,7 @@ public class UserDao implements IUserDao {
 	} catch (SQLException e) {
             // e.printStackTrace();
             throw new RuntimeException(e);
-        }finally{
+        } finally {
             closeStatement();
         }
     }
@@ -128,18 +126,6 @@ public class UserDao implements IUserDao {
                 resultSet.close();
                 resultSet = null;
             }   
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void closeConnection() {
-        try {
-            if(connection != null){
-                connection.close();
-                connection = null;
-            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

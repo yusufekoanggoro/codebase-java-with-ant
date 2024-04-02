@@ -11,6 +11,7 @@ import application.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,10 +19,12 @@ import java.util.List;
  */
 public class GenerateUser {
     
-    List<UserModel> users = new ArrayList<>();
-    private final IUserDao userDao = new UserDao();
+    private static final Logger logger = Logger.getLogger(Mysql.class.getName());
     
-    public GenerateUser(){
+    public static void start(){
+        List<UserModel> users = new ArrayList<>();
+        IUserDao userDao = new UserDao();
+        
         java.util.Date utilDate = new java.util.Date();
         java.sql.Timestamp dateNow = new java.sql.Timestamp(utilDate.getTime());
         
@@ -58,9 +61,6 @@ public class GenerateUser {
         user2.setRoleId(1);
         users.add(user2);
         
-    }
-    
-    public void start(){
         int index = 1;
         String roleName = null;
         for (UserModel user : users) {
@@ -70,9 +70,8 @@ public class GenerateUser {
             String username = StringUtils.getInitialsFullName(user.getName()).toLowerCase() + index++  + "-" + roleName;
             user.setUsername(username);
             user.setPassword(Password.getSecurePassword(username));
-            this.userDao.upsert(user);
+            userDao.upsert(user);
         }
-        System.out.println("Success Generate User");
-        this.userDao.closeConnection();
+        logger.info("Success Generate User");
     }
 }

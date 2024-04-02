@@ -29,6 +29,4 @@ public interface IUserDao {
 
     public void closeStatement();
     
-    public void closeConnection();
-    
 }

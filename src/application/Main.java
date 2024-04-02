@@ -4,7 +4,7 @@
  */
 package application;
 
-import application.frames.LoginFrame;
+import application.views.LoginView;
 
 /**
  *
@@ -17,12 +17,10 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
-            Config.build();
-            GenerateUser generateUser = new GenerateUser();
-            generateUser.start();
-        
-            LoginFrame loginFrame = new LoginFrame();
-            loginFrame.start();
+            Config.load();
+            Mysql.getInstance().getConnection();
+            GenerateUser.start();
+            new LoginView().start();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

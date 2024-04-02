@@ -2,9 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package application.frames;
+package application.views;
 
-import application.usecases.LoginUsecase;
+import application.Mysql;
+import application.Password;
+import application.dao.UserDao;
+import application.dao.interfaces.IUserDao;
+import application.models.UserModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
@@ -14,27 +18,27 @@ import javax.swing.JOptionPane;
  *
  * @author yusuf
  */
-public class LoginFrame extends javax.swing.JFrame {
+public class LoginView extends javax.swing.JFrame {
 
-    private final LoginUsecase loginUsecase;;
+    private final IUserDao userDao;
     
     /**
      * Creates new form LoginFrame
      */
-    public LoginFrame() {
+    public LoginView() {
         initComponents();
-        this.loginUsecase = new LoginUsecase();
+        this.userDao = new UserDao();
     }
     
     @Override
     public void dispose(){
         // TODO add your handling code here:
-        loginUsecase.daoCloseConnection();
+        Mysql.getInstance().closeConnection();
         super.dispose();
     }
     
     public void start(){
-        JFrame frame = new LoginFrame();
+        JFrame frame = new LoginView();
         frame.setTitle("Login Frame");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -51,7 +55,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     JOptionPane.YES_NO_OPTION);
 
                 if (result == JOptionPane.YES_OPTION){
-                    loginUsecase.daoCloseConnection();
+                    Mysql.getInstance().closeConnection();
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     System.exit(0);
                 }
@@ -133,14 +137,24 @@ public class LoginFrame extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         String username = jTextField1.getText();
-        String password = jTextField1.getText();
-        boolean validateLogin = loginUsecase.validateLogin(username, password);
-        if(validateLogin){
-            jTextField1.setText("");
-            jTextField2.setText("");
-            JOptionPane.showMessageDialog(null, "Berhasil Masuk");   
-        }else{
+        String password = jTextField2.getText();
+       
+        UserModel user = new UserModel();
+        user.setUsername(username);
+        UserModel findOneByUsername = userDao.findOneByUsername(user);
+        
+        if(findOneByUsername == null) {
             JOptionPane.showMessageDialog(null, "Username atau Password Anda Salah");   
+        } else {
+            String inputUser = Password.getSecurePassword(password);
+            String passwordDb = findOneByUsername.getPassword();
+            if(inputUser.equals(passwordDb)){
+                jTextField1.setText("");
+                jTextField2.setText("");
+                JOptionPane.showMessageDialog(null, "Berhasil Masuk");   
+            }else{
+                JOptionPane.showMessageDialog(null, "Username atau Password Anda Salah");
+            }
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -161,21 +175,23 @@ public class LoginFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginFrame().setVisible(true);
+                new LoginView().setVisible(true);
             }
         });
     }
