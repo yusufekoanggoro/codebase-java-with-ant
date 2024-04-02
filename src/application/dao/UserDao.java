@@ -20,14 +20,14 @@ import java.util.List;
  */
 public class UserDao implements IUserDao {
     
-    private Connection connection = null;
+    private Connection dbConnection = null;
     private PreparedStatement pstmt = null;
     private ResultSet resultSet = null;
 
     private String query;
     
     public UserDao() {
-        connection = Mysql.getInstance().getConnection();
+        dbConnection = Mysql.getInstance().getConnection();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class UserDao implements IUserDao {
         try {
             query = "SELECT * FROM users WHERE username=?";
  
-            pstmt = connection.prepareStatement(query);
+            pstmt = dbConnection.prepareStatement(query);
             pstmt.setString(1, user.getUsername());
             
             resultSet = pstmt.executeQuery();
@@ -80,7 +80,7 @@ public class UserDao implements IUserDao {
                     "phone_number=VALUES(phone_number), username=VALUES(username), password=VALUES(password), " +
                     "created_at=VALUES(created_at), updated_at=VALUES(updated_at), role_id=VALUES(role_id)";
             
-            pstmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            pstmt = dbConnection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getGender());
             pstmt.setString(3, user.getPlaceOfBirth());

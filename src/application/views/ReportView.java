@@ -21,7 +21,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -116,7 +115,7 @@ public class ReportView extends javax.swing.JFrame {
             InputStream reportStream = ReportView.class.getResourceAsStream("/resources/reports/" + templateName);
             JasperDesign jd = JRXmlLoader.load(reportStream);
             
-            Connection connection = Mysql.getInstance().getConnection();
+            Connection dbConnection = Mysql.getInstance().getConnection();
             JasperReport jr = JasperCompileManager.compileReport(jd);
             
             HashMap parameter = new HashMap();
@@ -126,7 +125,7 @@ public class ReportView extends javax.swing.JFrame {
 //            BufferedImage image = ImageIO.read(getClass().getResource("/resources/templates/cherry.jpg"));
 //            params.put("logo", image );
 
-            JasperPrint jp = JasperFillManager.fillReport(jr,parameter, connection);
+            JasperPrint jp = JasperFillManager.fillReport(jr,parameter, dbConnection);
             JasperViewer.viewReport(jp, false);
         } catch (JRException ex) {
             Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
