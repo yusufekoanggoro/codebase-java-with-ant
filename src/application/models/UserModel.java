@@ -12,6 +12,20 @@ import java.sql.Timestamp;
  * @author yusuf
  */
 public class UserModel {
+    private int id;
+    private String name;
+    private String gender;
+    private String placeOfBirth;
+    private Date dateOfBirth;
+    private String address;
+    private String religion;
+    private String status;
+    private String phoneNumber;
+    private java.sql.Timestamp createdAt;
+    private java.sql.Timestamp updatedAt;
+    private String username;
+    private String password;
+    private int roleId;
 
     public int getId() {
         return id;
@@ -125,19 +139,7 @@ public class UserModel {
         this.roleId = roleId;
     }
     
-    private int id;
-    private String name;
-    private String gender;
-    private String placeOfBirth;
-    private Date dateOfBirth;
-    private String address;
-    private String religion;
-    private String status;
-    private String phoneNumber;
-    private java.sql.Timestamp createdAt;
-    private java.sql.Timestamp updatedAt;
-    private String username;
-    private String password;
-    private int roleId;
-    
+    public boolean authenticate(String username, String password) {
+        return this.username.equals(username) && this.password.equals(password);
+    }
 }

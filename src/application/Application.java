@@ -4,13 +4,14 @@
  */
 package application;
 
+import application.utils.DatabaseUtil;
 import application.views.*;
 
 /**
  *
  * @author yusuf
  */
-public class Main {
+public class Application {
 
     /**
      * @param args the command line arguments
@@ -18,7 +19,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             Config.load();
-            Database.getInstance().getConnection();
+            DatabaseUtil.getInstance().getConnection();
             GenerateUser.start();
             new LoginView().start();
             new ReportView().start();

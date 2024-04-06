@@ -4,14 +4,13 @@
  */
 package application;
 
-import application.dao.UserDao;
-import application.dao.interfaces.IUserDao;
+import application.daoimpl.UserDaoImpl;
 import application.models.UserModel;
-import application.utils.StringUtils;
+import application.utils.StringUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Logger;
+import application.dao.UserDao;
 
 /**
  *
@@ -19,11 +18,9 @@ import java.util.logging.Logger;
  */
 public class GenerateUser {
     
-    private static final Logger logger = Logger.getLogger(Database.class.getName());
-    
     public static void start(){
         List<UserModel> users = new ArrayList<>();
-        IUserDao userDao = new UserDao();
+        UserDao userDao = new UserDaoImpl();
         
         java.util.Date utilDate = new java.util.Date();
         java.sql.Timestamp dateNow = new java.sql.Timestamp(utilDate.getTime());
@@ -67,11 +64,12 @@ public class GenerateUser {
             if(user.getRoleId() == 1){
                 roleName = "admin";
             }
-            String username = StringUtils.getInitialsFullName(user.getName()).toLowerCase() + index++  + "-" + roleName;
+            String username = StringUtil.getInitialsFullName(user.getName()).toLowerCase() + index++  + "-" + roleName;
             user.setUsername(username);
-            user.setPassword(Password.getSecurePassword(username));
+            user.setPassword(username);
             userDao.upsert(user);
         }
-        logger.info("Success Generate User");
+        
+        System.out.println("Success Generate User");
     }
 }

@@ -8,7 +8,7 @@ package application.utils;
  *
  * @author yusuf
  */
-public class StringUtils {
+public class StringUtil {
     
     public static String getInitialsFullName(String fullName) {
         String initials = String.valueOf(fullName.charAt(0));

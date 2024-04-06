@@ -4,30 +4,42 @@
  */
 package application.views;
 
-import application.Database;
-import application.Password;
-import application.dao.UserDao;
-import application.dao.interfaces.IUserDao;
+import application.daoimpl.UserDaoImpl;
 import application.models.UserModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import application.dao.UserDao;
+import application.utils.DatabaseUtil;
 
 /**
  *
  * @author yusuf
  */
 public class LoginView extends javax.swing.JFrame {
-
-    private final IUserDao userDao;
+    private final UserDao userDao;
 
     /**
      * Creates new form LoginFrame
      */
     public LoginView() {
         initComponents();
-        this.userDao = new UserDao();
+        this.userDao = new UserDaoImpl();
+    }
+    
+    @Override
+    public void dispose() {
+        // Your custom disposal logic here
+        System.out.println("Disposing resources...");
+        DatabaseUtil.getInstance().closeConnection();
+        super.dispose();
+    }
+    
+    public void clearForm(){
+        textFieldUsername.setText("");
+        textFieldPassword.setText("");
+        textFieldUsername.requestFocus();
     }
     
     public void start(){
@@ -48,15 +60,14 @@ public class LoginView extends javax.swing.JFrame {
                     JOptionPane.YES_NO_OPTION);
 
                 if (result == JOptionPane.YES_OPTION){
-                    Database.getInstance().closeConnection();
+                    DatabaseUtil.getInstance().closeConnection();
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     System.exit(0);
                 }
             }
         });
         // TODO add your custom frame code here:
-        
-       
+
         frame.setVisible( true );
     }
 
@@ -69,18 +80,18 @@ public class LoginView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        buttonLogin = new javax.swing.JButton();
+        textFieldUsername = new javax.swing.JTextField();
+        textFieldPassword = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Login");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        buttonLogin.setText("Login");
+        buttonLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                buttonLoginMouseClicked(evt);
             }
         });
 
@@ -96,7 +107,7 @@ public class LoginView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(buttonLogin))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(59, 59, 59)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,8 +115,8 @@ public class LoginView extends javax.swing.JFrame {
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                            .addComponent(jTextField1))))
+                            .addComponent(textFieldPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                            .addComponent(textFieldUsername))))
                 .addGap(0, 116, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -113,43 +124,39 @@ public class LoginView extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(68, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(buttonLogin)
                 .addGap(127, 127, 127))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void buttonLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonLoginMouseClicked
         // TODO add your handling code here:
-        String username = jTextField1.getText();
-        String password = jTextField2.getText();
+        String username = textFieldUsername.getText();
+        String password = textFieldPassword.getText();
        
-        UserModel user = new UserModel();
-        user.setUsername(username);
-        UserModel findOneByUsername = userDao.findOneByUsername(user);
-        
-        if(findOneByUsername == null) {
-            JOptionPane.showMessageDialog(null, "Username atau Password Anda Salah");   
+        UserModel userFound = userDao.findOneByUsernameAndPassword(username, password);
+        if(userFound == null) {
+            JOptionPane.showMessageDialog(null, "Username atau Password Anda Salah");  
+            this.clearForm();
         } else {
-            String inputUser = Password.getSecurePassword(password);
-            String passwordDb = findOneByUsername.getPassword();
-            if(inputUser.equals(passwordDb)){
-                jTextField1.setText("");
-                jTextField2.setText("");
+            if(userFound.authenticate(username, password)){
+                this.clearForm();
+                this.dispose();
                 JOptionPane.showMessageDialog(null, "Berhasil Masuk");   
             }else{
                 JOptionPane.showMessageDialog(null, "Username atau Password Anda Salah");
             }
         }
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_buttonLoginMouseClicked
 
     /**
      * @param args the command line arguments
@@ -190,10 +197,10 @@ public class LoginView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton buttonLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField textFieldPassword;
+    private javax.swing.JTextField textFieldUsername;
     // End of variables declaration//GEN-END:variables
 }

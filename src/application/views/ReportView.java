@@ -4,7 +4,7 @@
  */
 package application.views;
 
-import application.Database;
+import application.utils.DatabaseUtil;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.InputStream;
@@ -36,6 +36,13 @@ public class ReportView extends javax.swing.JFrame {
         initComponents();
     }
     
+    @Override
+    public void dispose() {
+        // Your custom disposal logic here
+        System.out.println("Disposing resources...");
+        DatabaseUtil.getInstance().closeConnection();
+        super.dispose();
+    }
     
     public void start(){
         JFrame frame = new ReportView();
@@ -55,15 +62,14 @@ public class ReportView extends javax.swing.JFrame {
                     JOptionPane.YES_NO_OPTION);
 
                 if (result == JOptionPane.YES_OPTION){
-                    Database.getInstance().closeConnection();
+                    DatabaseUtil.getInstance().closeConnection();
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     System.exit(0);
                 }
             }
         });
         // TODO add your custom frame code here:
-        
-       
+
         frame.setVisible( true );
     }
 
@@ -114,7 +120,7 @@ public class ReportView extends javax.swing.JFrame {
             InputStream reportStream = ReportView.class.getResourceAsStream("/resources/reports/" + templateName);
             JasperDesign jd = JRXmlLoader.load(reportStream);
             
-            Connection dbConnection = Database.getInstance().getConnection();
+            Connection dbConnection = DatabaseUtil.getInstance().getConnection();
             JasperReport jr = JasperCompileManager.compileReport(jd);
             
             HashMap parameter = new HashMap();
