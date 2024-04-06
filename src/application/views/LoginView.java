@@ -148,7 +148,7 @@ public class LoginView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Username atau Password Anda Salah");  
             this.clearForm();
         } else {
-            if(userFound.authenticate(username, password)){
+            if(userFound.authenticate(username, password) == true){
                 this.clearForm();
                 this.dispose();
                 JOptionPane.showMessageDialog(null, "Berhasil Masuk");   

@@ -46,6 +46,7 @@ public class UserDaoImpl implements UserDao {
             if(resultSet.next()){
                 UserModel userFound = new UserModel();
                 userFound.setId(resultSet.getInt("id"));
+                userFound.setUsername(resultSet.getString("username"));
                 userFound.setName(resultSet.getString("name"));
                 userFound.setGender(resultSet.getString("gender"));
                 userFound.setPassword(resultSet.getString("password"));
