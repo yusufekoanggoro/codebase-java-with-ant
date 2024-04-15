@@ -26,9 +26,9 @@ public class GenerateUser {
         java.sql.Timestamp dateNow = new java.sql.Timestamp(utilDate.getTime());
         
         Calendar cal = Calendar.getInstance();
-        cal.set( Calendar.YEAR, 2001 );
+        cal.set( Calendar.YEAR, 1945 );
         cal.set( Calendar.MONTH, Calendar.FEBRUARY );
-        cal.set( Calendar.DATE, 24 );
+        cal.set( Calendar.DATE, 10);
 
         java.sql.Date dateOfBirth = new java.sql.Date(cal.getTimeInMillis());
         
