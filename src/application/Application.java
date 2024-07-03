@@ -21,7 +21,7 @@ public class Application {
             Config.load();
             DatabaseUtil.getInstance().getConnection();
             GenerateUser.start();
-            new LoginView().start();
+//            new LoginView().start();
             new ReportView().start();
         } catch (Exception e) {
             throw new RuntimeException(e);

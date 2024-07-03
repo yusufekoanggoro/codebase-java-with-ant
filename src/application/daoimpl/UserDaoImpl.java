@@ -74,12 +74,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public int upsert(UserModel user) {
         try {
-            query = "INSERT INTO users(name, gender, place_of_birth, date_of_birth, address, religion, phone_number, username, password, created_at, updated_at, role_id) " +
-                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+            query = "INSERT INTO users(name, gender, place_of_birth, date_of_birth, address, religion, phone_number, username, password, created_at, updated_at, role_id, email) " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                     "ON DUPLICATE KEY UPDATE name=VALUES(name), gender=VALUES(gender), place_of_birth=VALUES(place_of_birth), " +
                     "date_of_birth=VALUES(date_of_birth), address=VALUES(address), religion=VALUES(religion)," +
                     "phone_number=VALUES(phone_number), username=VALUES(username), password=VALUES(password), " +
-                    "created_at=VALUES(created_at), updated_at=VALUES(updated_at), role_id=VALUES(role_id)";
+                    "created_at=VALUES(created_at), updated_at=VALUES(updated_at), role_id=VALUES(role_id), " +
+                    "email=VALUES(email)";
             
             pstmt = dbConnection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, user.getName());
@@ -94,7 +95,8 @@ public class UserDaoImpl implements UserDao {
             pstmt.setTimestamp(10, user.getCreatedAt());
             pstmt.setTimestamp(11, user.getUpdatedAt());
             pstmt.setInt(12, user.getRoleId());
-            
+            pstmt.setString(13, user.getEmail());
+       
             int result = pstmt.executeUpdate();
             resultSet = pstmt.getGeneratedKeys();
             return result;

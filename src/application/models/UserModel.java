@@ -26,6 +26,7 @@ public class UserModel {
     private String username;
     private String password;
     private int roleId;
+    private String email;
 
     public int getId() {
         return id;
@@ -137,6 +138,14 @@ public class UserModel {
 
     public void setRoleId(int roleId) {
         this.roleId = roleId;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
     public boolean authenticate(String username, String password) {

@@ -43,6 +43,7 @@ public class GenerateUser {
         user1.setAddress("Jalan-jalan");
         user1.setReligion("Islam");
         user1.setRoleId(1);
+        user1.setEmail("yusuf@gmail.com");
         users.add(user1);
         
         UserModel user2 = new UserModel();
@@ -56,6 +57,7 @@ public class GenerateUser {
         user2.setAddress("Jalan-jalan");
         user2.setReligion("Islam");
         user2.setRoleId(1);
+        user2.setEmail("yusuf2@gmail.com");
         users.add(user2);
         
         int index = 1;
