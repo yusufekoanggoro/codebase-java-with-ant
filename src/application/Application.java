@@ -18,7 +18,7 @@ public class Application {
      */
     public static void main(String[] args) {
         try {
-            Config.load();
+//            Config.load();
             DatabaseUtil.getInstance().getConnection();
             GenerateUser.start();
 //            new LoginView().start();

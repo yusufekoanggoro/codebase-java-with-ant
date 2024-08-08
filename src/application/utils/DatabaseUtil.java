@@ -15,11 +15,11 @@ import java.util.Properties;
  */
 public class DatabaseUtil {
     private static Connection connection;
-    private static final String DRIVER = System.getProperty("MYSQL_DRIVER");
-    private static final String URL = System.getProperty("MYSQL_URL");
-    private static final String USERNAME = System.getProperty("MYSQL_USERNAME");
-    private static final String PASSWORD = System.getProperty("MYSQL_PASSWORD");
-    private static final String MAX_POOL = System.getProperty("MYSQL_MAX_POOL");
+    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static final String URL = "jdbc:mysql://localhost:3306/codebase";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "";
+    private static final String MAX_POOL = "250";
     private static DatabaseUtil instance;
              
     private DatabaseUtil() {

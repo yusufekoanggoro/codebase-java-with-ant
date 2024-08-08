@@ -124,7 +124,7 @@ public class ReportView extends javax.swing.JFrame {
             JasperReport jr = JasperCompileManager.compileReport(jd);
             
             HashMap parameter = new HashMap();
-            parameter.put("PATH_IMG","src/resources/images/");
+            parameter.put("PATH_IMG","resources/images/");
 //            Map<String, Object> params = new HashMap<>();
 //            
 //            BufferedImage image = ImageIO.read(getClass().getResource("/resources/templates/cherry.jpg"));
